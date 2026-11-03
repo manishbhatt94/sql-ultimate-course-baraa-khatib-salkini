@@ -1,0 +1,70 @@
+# Core Settings: Line Endings
+###############################################################
+
+# 1. Default to "text=auto" for all files. 
+# This tells Git to guess if a file is text or binary. For text files,
+# it enables core.autocrlf conversion, which is necessary for Windows users.
+* text=auto
+
+# 2. Explicitly force LF (Linux/Unix-style) for critical configuration files.
+# While 'text=auto' usually works, forcing LF here ensures tools like Maven 
+# and CI/CD pipelines always see a consistent format.
+*.xml   text eol=lf
+*.properties text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.json  text eol=lf
+
+# 3. Explicitly force LF for scripts. Scripts *must* be LF-only to run correctly on Linux/WSL.
+*.sh    text eol=lf
+*.bash  text eol=lf
+
+# Explicitly ensure Java source code uses text=auto. 
+# Java files are text, and 'text=auto' allows Windows users to use CRLF locally, 
+# while ensuring the repo stores LF. No need for an explicit eol=lf here.
+*.java  text
+*.sql   text
+*.csv   text
+*.md    text
+
+# Eclipse Specific Files (Keep as is, or enforce LF for consistency)
+###############################################################
+
+# Eclipse workspace settings are best kept normalized to LF for consistency.
+# These files are often read by other tools/IDEs.
+.project    text eol=lf
+.classpath  text eol=lf
+*.prefs     text eol=lf
+.settings/* text eol=lf
+
+
+# Binary Files (MUST be set to binary)
+###############################################################
+
+# Prevent any line ending or character set conversion on compiled and packaged files.
+*.class binary
+*.jar   binary
+*.war   binary
+*.ear   binary
+*.zip   binary
+*.tar   binary
+*.gz    binary
+*.7z    binary
+*.dll   binary
+*.exe   binary
+*.ico   binary
+*.bak   binary
+
+# Images and other media
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.webp  binary
+*.avif  binary
+*.tiff  binary
+*.gif   binary
+*.bmp   binary
+*.svg   binary
+*.ttf   binary
+*.woff  binary
+*.pdf   binary

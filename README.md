@@ -8,7 +8,12 @@ This clone is for practice and learning only.
 All credits and attribution is to the original author & teacher:
 [Baraa Khatib Salkini](https://www.datawithbaraa.com/).
 
-YouTube videos / playlists to note:
+
+**Database Setup:**
+- [https://www.datawithbaraa.com/wiki/sql#setup-guide](https://www.datawithbaraa.com/wiki/sql#setup-guide)
+
+
+**YouTube videos / playlists to note:**
 
 - [SQL Ultimate Course - Full Playlist](https://www.youtube.com/playlist?list=PLNcg_FV9n7qZY_2eAtUzEUulNjTJREhQe)
 - [The Ultimate SQL Window Functions Course | Complete End-to-End Guide](https://www.youtube.com/watch?v=Wvg4PjbMTO8)

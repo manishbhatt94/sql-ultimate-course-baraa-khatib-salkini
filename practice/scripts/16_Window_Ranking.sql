@@ -82,3 +82,86 @@ SELECT * FROM (
     FROM Orders_Archive
 ) AS UniqueOrdersArchive
 WHERE rn = 1;
+
+
+/* ============================================================
+   SQL WINDOW RANKING | NTILE
+   ============================================================ */
+
+/* TASK 6:
+   Divide Orders into Groups Based on Sales
+*/
+SELECT
+    OrderID,
+    ProductID,
+    Sales,
+    NTILE(1) OVER (ORDER BY Sales) AS OneBucket,
+    NTILE(2) OVER (ORDER BY Sales) AS TwoBuckets,
+    NTILE(3) OVER (ORDER BY Sales) AS ThreeBuckets,
+    NTILE(4) OVER (ORDER BY Sales) AS FourBuckets
+FROM Orders;
+
+SELECT
+    OrderID,
+    ProductID,
+    Sales,
+    NTILE(1) OVER (ORDER BY Sales) AS OneBucket,
+    NTILE(2) OVER (ORDER BY Sales) AS TwoBuckets,
+    NTILE(3) OVER (ORDER BY Sales) AS ThreeBuckets,
+    NTILE(4) OVER (ORDER BY Sales) AS FourBuckets,
+    NTILE(2) OVER (PARTITION BY ProductID ORDER BY Sales) AS TwoBucketByProducts
+FROM Orders;
+
+SELECT
+    OrderID,
+    ProductID,
+    Sales,
+    NTILE(2) OVER (PARTITION BY ProductID ORDER BY Sales) AS TwoBucketByProducts
+FROM Orders;
+
+
+/* TASK 7:
+   Segment all Orders into 3 Categories: High, Medium, and Low Sales.
+*/
+-- Intermediate result-set with bucket numbers based on `Sales` column values:
+SELECT OrderID, Sales,
+    NTILE(3) OVER (ORDER BY Sales DESC) AS Buckets
+FROM Orders;
+
+-- Finally, using CASE WHEN:
+SELECT OrderID, Sales, Buckets,
+    CASE
+        WHEN Buckets = 1 THEN 'High'
+        WHEN Buckets = 2 THEN 'Medium'
+        WHEN Buckets = 3 THEN 'Low'
+    END AS SalesSegmentations
+FROM (
+    SELECT OrderID, Sales,
+        NTILE(3) OVER (ORDER BY Sales DESC) AS Buckets
+    FROM Orders
+) AS SalesBuckets;
+
+
+/* TASK 8:
+   Divide Orders into Groups for Processing
+*/
+SELECT
+    *,
+    NTILE(5) OVER (ORDER BY OrderID) AS Buckets
+FROM Orders;
+
+
+/* ============================================================
+   SQL WINDOW RANKING | CUME_DIST
+   ============================================================ */
+
+/* TASK 9:
+   Find Products that Fall Within the Highest 40% of the Prices
+*/
+SELECT ProductID, Product, Category, Price,
+    DistRank
+FROM (
+    SELECT ProductID, Product, Category, Price,
+	    CUME_DIST() OVER(ORDER BY Price DESC) AS DistRank
+    FROM Products
+) t WHERE DistRank <= 0.40;
